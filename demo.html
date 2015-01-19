@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html >
+<head>
+	<!--
+		This uses boostrap and angularJS
+	-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+    <script language="javascript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.min.js"></script>
+</head>
+<body ng-app="">
+<div class="well">
+	<!-- Explain what this page contains and shows button to click on to go to the sport poll -->
+	<div>
+		<p>Below contain functions of replacement and sorting. Click the button to go to the Sport poll. <a class="btn btn-primary" href="demo">Sport Poll</a></p> 
+	</div>
+
+	<!-- Replacement string view-->
+    <div class="panel panel-default">
+    	<div class="panel-heading"><label>1. Replacement string </label></div>
+        <div class="panel-body">
+	        <div ng-controller="replaceController">
+				<!-- explain what this view does -->
+                <p>Enter replacement string to replace the word <strong>down</strong> in the string <strong>Running down the hill.</strong> </p>
+				<!-- button to click on and display result -->
+                <input type="text" class="form-control col-sm-4" name="inputVal" ng-model="rvalue" placeholder="Enter your value here to display in the string below" ><br>
+				<!-- calls function to display results -->
+                <div class="alert alert-info"><p>The new string is <strong> {{ replaceStr() }} </strong></p></div>
+	        </div>
+        </div>
+    </div>
+
+	<!-- Occur once value view -->
+    <div class="panel panel-default">
+        <div class="panel-heading"><label>2. Occur once </label></div>
+        <div class="panel-body" ng-controller="OccurOnceController">
+			<!-- explain what this view does -->
+            <p>Click on Button to display values that occur once in this array <strong>[2,13,3,7,14,5,19,8,11,19,6,9,12,2,2,13,11,8,18,4]</strong></p>
+			<!-- button to click on and display result -->
+            <button class="btn btn-primary" ng-click="occurOnce([2,13,3,7,14,5,19,8,11,19,6,9,12,2,2,13,11,8,18,4])">Show Occur Once results</button> 
+			<!-- calls function to display results -->
+			<p>These are the values that occurs once : <strong>{{ occurOnceValue }}</strong></p>
+        </div>
+    </div>
+
+	<!-- Sort Ascending view -->
+    <div class="panel panel-default">
+        <div class="panel-heading"><label>3. Sort ascending</label></div>
+        <div class="panel-body" ng-controller="SortAscendingController">
+			<!-- explain what this view does -->
+			<p>Click on Button to display values that have been sorted and display in ascending order from this array <strong>[11,20,4,18,1,16,15,43,10,31,14,21,2,19,13,32,34,5,26,24]</strong></p>
+			<!-- button to click on and display result -->
+            <button class="btn btn-primary" ng-click="sortAsc([11,20,4,18,1,16,15,43,10,31,14,21,2,19,13,32,34,5,26,24])">Show Sort Ascending results</button> 
+			<!-- calls function to display results -->
+			<p>These are the sorted ascending values : <strong>{{ sortAscending }}</strong></p>
+        </div>
+    </div>
+</div>
+<!-- Scripting -->
+<script>
+
+	/**********************************************************************************************
+	 *  This contains a function to replace characters in a string                                *
+     **********************************************************************************************/
+
+    function replaceController($scope){        
+		$scope.rvalue = '';
+
+		$scope.replaceStr = function(){
+            var originalStr = "Running down the hill."; // Original String to replace
+            var originalStrLen = originalStr.length;    // Length of the original string
+            var newStr = $scope.rvalue;                 // New string from input
+            var newStrLen = newStr.length;              // Length of new string    
+			var replaceStr = "down";                    // String to be replaced
+			var replaceStrLen = replaceStr.length;      // Length of replaced string
+            var firstLetter = replaceStr.charAt(0);     // First letter of the replaced string
+            var p1 = "";                                // ------------------------------------
+            var p2 = "";                                // -          Initialise variables
+            var start = 0;                              // -        
+            var end = 0;                                // ------------------------------------
+
+			/*******************************************************************
+			 * This finds the first letter and check if it contains            *
+			 * the replacement characters and if yes get the start and end     *
+			 * values to save first and last part of the string to be replace. *
+			 *******************************************************************/
+            for (var n = 0; n < originalStrLen; n++) {
+                p1 += originalStr.charAt(n);
+
+                if ( p1[n] == firstLetter) {                     // check if current character matches replacement character
+                    p2 = originalStr.substr(n, replaceStrLen);   // if yes copy the all characters in length of the replacement string
+			
+                    if (p2 === replaceStr) {                     // check if copy string matches replacement string
+                    	end = n;                                 // if yes get end and start of string to copy
+                    	start = n + replaceStrLen;
+
+                    }
+                }
+            }
+
+			/*******************************************************************
+			 * This copies the begging and end of the string to allow insert   *
+			 * of the replacement characters in the string                     *
+			 * values to save first and last part of the string to be replace. *
+			 *******************************************************************/
+            p1 = originalStr.substr(0, end);			          // first part of string copied
+            p2 = originalStr.substr(start, originalStrLen);       // second part of string copied
+
+            return p1 + newStr + p2;                              // return whole string with start and end copied with new string combined
+		}
+    }
+
+	/**********************************************************************************************
+	 *  This contains a function to check array and show values that occur once in the array      *
+     **********************************************************************************************/
+
+	function OccurOnceController($scope){
+
+		$scope.occurOnce = function(intArr) {
+
+			var p1 = [];
+			var p2 = [];
+			var i = 0;
+			var valExist = false;
+
+			for (var n = 0; n < intArr.length; n++) {           
+				p1[n] = intArr[n];                                // copy value to validate
+
+				for  (var y = 0; y < intArr.length; y++) {       // run through array to check each value 
+					if ((p1[n] == intArr[y]) && (n != y)) {      // check if value exist and its not the same index
+						valExist = true;                         // set true if value exist more than once
+					}
+				}
+
+				if (valExist == false) {                        // if value does not exist more than once
+					p2[i] = p1[n];                              // then copy value
+					i++;                                        // increase index if it finds another value that occur once
+				}			
+				
+				valExist = false;                               // set to false to go through loop again set it to true if needed
+			}
+
+
+			$scope.occurOnceValue = p2;                         // assign array to variable to be displayed after completed
+		}
+	}
+
+	/**********************************************************************************************
+	 *  This contains a function sorts and display values in an ascending order                   *
+     **********************************************************************************************/
+
+	function SortAscendingController($scope){
+		
+		$scope.sortAsc = function(intArr) {
+
+			var i = 0;
+
+			for (var n = 0; n < intArr.length; n++) {
+				for  (var y = 0; y < intArr.length; y++) {          
+					if (intArr[y] > intArr[y+1]){                   // check if value is greater than the next value
+						i = intArr[y];                              // if yes copy value 
+						intArr[y] = intArr[y+1];                    // copy next value to current value
+						intArr[y+1] = i;                            // copy the copied value to the next value
+						
+					}
+				}
+			}
+
+			$scope.sortAscending = intArr;                          // copy array to variable to be displayed
+		}
+
+	}
+
+</script>
+</body>
+</html>
+
