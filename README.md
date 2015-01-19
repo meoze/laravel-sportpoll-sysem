@@ -3,20 +3,28 @@ laravel-sportpoll-sysem
 
 These are files for sports poll system.
 
-DemoController.php 	           // This is the controller file
+// This is the controller file
+DemoController.php 	           
 
-index.blade.php 	           // Index file that shows the sport poll system
-result.blade.php 	           // Shows results of vistors response and votes
-showmail.blade.php 	           // Shows the mail to be sent to visitor
+// Index file that shows the sport poll system
+index.blade.php 	        
+// Shows results of vistors response and votes   
+result.blade.php 	           
+// Shows the mail to be sent to visitor
+showmail.blade.php 	           
 
-demoadmin.blade.php 	       // This the admin that exports excel file and shows graphs
+// Admin page that exports excel file and shows graphs
+demoadmin.blade.php 	       
 
-sportvote.blade.php 	       // View to export to excel file
-teamvote.blade.php 	           // View to export to excel file
-visitdetails.blade.php 	       // View to export to excel file
-visitresponse.blade.php 	   // View to export to excel file
+// Views to export to excel file
+sportvote.blade.php 	       
+teamvote.blade.php 	           
+visitdetails.blade.php 	       
+visitresponse.blade.php 	   
 
-main.js 	                   // jquery code when sport or team is selected
+// jquery code when sport or team is selected
+main.js 	                   
 
-demo.html                      // Contains html and angularjs javascript for sorting and replacing values 	
+// HTML and AngularJS for sorting and replacing values
+demo.html                       	
 
