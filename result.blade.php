@@ -13,7 +13,7 @@
 				@if (isset($sports))
 					@foreach ($sports as $sport)
 						<tr>
-							<td>{{ $sport['name'] }}</td><td>{{ $sport['vote'] }}</td><td>{{ $sport['vote'] / 100 * 100}}%</td>
+							<td>{{ $sport['name'] }}</td><td>{{ $sport['vote'] }}</td><td>{{ round($sport['vote'] / $total_votes * 100) }}%</td>
 						</tr>
 					@endforeach
 				@endif

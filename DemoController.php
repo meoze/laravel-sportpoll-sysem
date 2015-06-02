@@ -111,7 +111,10 @@ class DemoController extends BaseController {
 		// get only sport names
 		$lists = poll_sport::lists('name');
 
-		// create select box for the name of sports
+		// get total votes in sports DB
+		$total_votes = DB::table('sport')->sum('vote');
+		
+// create select box for the name of sports
 		$listsport = "<option value='' selected disabled>Select a sport to view responses</option>";
 
 		foreach ($lists as $list) {
@@ -119,7 +122,8 @@ class DemoController extends BaseController {
 		}
 
 		// send sport information and select list to result view
-		return View::make('demo.result')->with('sports', $sports)->with('listsport', $listsport);
+		return View::make('demo.result')->with('sports', $sports)->with('listsport', $listsport)
+										->with('total_votes', $total_votes);
 	}
 
 	// get results based on sport name selected and return the visitor response
@@ -133,11 +137,17 @@ class DemoController extends BaseController {
 		//get sport values based on sport name
 		$sports = poll_sport::where('name', '=', $val)->first();
 
+		// get total votes in sports DB
+		$total_votes = DB::table('sport')->sum('vote');
+
+		// calculate vote percentage
+		$votepercentage = round(count($visitors) / $total_votes  * 100);
+
 		// create view to show response of each visitor
 		// show sport name and votes and percentage of the sport selected
 		$display = "<p class='alert alert-success'>";
-		$display .= "<strong> " . $sports['name'] . " Total Votes </strong> <span class='badge'> " . $sports['vote'] . " </span> ";
-		$display .= "<strong> Percentage </strong> <span class='badge'> " . $sports['vote'] / 100 * 100 . "% </span></p> ";
+		$display .= "<strong> " . $sports['name'] . " Total Votes </strong> <span class='badge'> " . count($visitors) . " </span> ";
+		$display .= "<strong> Percentage </strong> <span class='badge'> " . $votepercentage . "% </span></p> ";
 
 		// create view of each visitor that chose the same sport and display there response
 		foreach ($visitors as $visitor) {
